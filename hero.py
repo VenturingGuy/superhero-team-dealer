@@ -14,6 +14,8 @@ class Hero:
         '''
         # abilities and armors don't have starting values,
         # and are set to empty lists on initialization
+        self.deaths = 0
+        self.kills = 0
         self.abilities = list()
         self.armors = list()
         # we know the name of our hero, so we assign it here
@@ -42,9 +44,19 @@ class Hero:
                 opponent.take_damage(self.attack())
                 if opponent.is_alive() == False:
                     print(self.name + " has won!")
+                    opponent.add_death(1)
+                    self.add_kill(1)
                 self.take_damage(opponent.attack())
                 if self.is_alive() == False:
                     print(opponent.name + " has won!")
+                    opponent.add_kill(1)
+                    self.add_death(1)
+
+        # TODO: Refactor this method to update the following:
+        # 1) the number of kills the hero (self) has when the opponent dies.
+        # 2) the number of kills the opponent has when the hero (self) dies
+        # 3) the number of deaths of the opponent if they die in the fight
+        # 4) the number of deaths of the hero (self) if they die in the fight
 
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
@@ -74,7 +86,7 @@ class Hero:
         # TODO: Add armor object that is passed into 'self.armors'
         self.armors.append(armor)
 
-    def defend(self, damage_amt):
+    def defend(self):
         ''' Calculate the total block amount from all armor blocks.
             return: total_block: Int
         '''
@@ -91,7 +103,7 @@ class Hero:
 
         # TODO: Create a method that updates self.current_health to the current
         # minus the amount returned from calling self.defend(damage)
-        self.current_health -= (damage - self.defend(damage))
+        self.current_health -= (damage - self.defend())
 
     def is_alive(self):
         ''' Return True or False depending on whether the hero is alive or not.
@@ -113,7 +125,14 @@ class Hero:
         # abilities and weapons.
         self.abilities.append(weapon)
             
+    def add_kill(self, num_kills):
+        ''' Update self.kills by num_kills amount '''
+        self.kills += num_kills
 
+    def add_death(self, num_deaths):
+        ''' Update deaths with num_deaths '''
+        # TODO: This method should add the number of deaths to self.deaths
+        self.deaths += num_deaths
 
 if __name__ == "__main__":
     # If you run this file from the terminal

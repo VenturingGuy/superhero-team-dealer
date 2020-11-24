@@ -1,3 +1,5 @@
+import random
+
 class Team:
     def __init__(self, name):
         ''' Initialize your team with its team name and an empty list of heroes
@@ -37,4 +39,43 @@ class Team:
         # self.heroes
         self.heroes.append(hero)
 
-    
+    def stats(self):
+        ''' Print team statistics '''
+        for hero in self.heroes:
+            kd = hero.kills / hero.deaths
+            print("{} Kill/Deaths: {}".format(hero.name, kd))
+
+    def revive_heroes(self, health=100):
+        ''' Reset all heroes health to starting_health) '''
+
+        # TODO: for each hero in self.heroes,
+        # set the hero's current_health to their starting_health
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
+
+    def attack(self, other_team):
+        ''' Battle each team against each other. '''
+
+        living_heroes = list()
+        living_opponents = list()
+
+        for hero in self.heroes:
+            living_heroes.append(hero)
+
+        for hero in other_team.heroes:
+            living_opponents.append(hero)
+
+        while len(living_heroes) > 0 and len(living_opponents) > 0:
+            # TODO: Complete the following steps:
+            # 1) Randomly select a living hero from each team (hint: look up what random.choice does)
+            # 2) have the heroes fight each other (Hint: Use the fight method in the Hero class)
+            # 3) update the list of living_heroes and living_opponents
+            # to reflect the result of the fight
+
+            hero1 = random.choice(living_heroes)
+            hero2 = random.choice(living_opponents)
+            hero1.fight(hero2)
+            if hero1.is_alive == False:
+                living_heroes.remove(hero1)
+            elif hero2.is_alive == False:
+                living_opponents.remove(hero2)
